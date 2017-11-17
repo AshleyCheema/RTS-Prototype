@@ -8,7 +8,7 @@ public class Unit : MonoBehaviour
     const float pathUpdateMoveThreshold = .5f;
 
     public Transform target;
-    public float speed = 50;
+    public float speed = 20;
     public float turnDst = 5;
     public float turnSpeed = 3;
     public float stoppingDst = 10;
@@ -38,7 +38,7 @@ public class Unit : MonoBehaviour
         {
             yield return new WaitForSeconds(.3f);
         }
-        PathManager.RequestPath(transform.position, target.position, OnPathFound);
+        PathManager.RequestPath(new PathRequest (transform.position, target.position, OnPathFound));
 
         float sqrMoveThreshold = pathUpdateMoveThreshold * pathUpdateMoveThreshold;
         Vector3 targetPosOld = target.position;
@@ -48,7 +48,7 @@ public class Unit : MonoBehaviour
             yield return new WaitForSeconds(minPathUpdateTime);
             if((target.position - targetPosOld).sqrMagnitude > sqrMoveThreshold)
             {
-                PathManager.RequestPath(transform.position, target.position, OnPathFound);
+                PathManager.RequestPath(new PathRequest (transform.position, target.position, OnPathFound));
                 targetPosOld = target.position;
 
             }
@@ -78,21 +78,22 @@ public class Unit : MonoBehaviour
                     pathIndex++;
                 }
             }
-                if(followingPath)
+            if(followingPath)
+            {
+                if (pathIndex >= path.slowDownIndex && stoppingDst > 0)
                 {
-                    if (pathIndex >= path.slowDownIndex && stoppingDst > 0)
+                    speedPercent = Mathf.Clamp01(path.turnBoundaries[path.finishLineIndex].DistanceFromPoint(pos2D) / stoppingDst);
+
+                    if(speedPercent < 0.01f)
                     {
-                        speedPercent = Mathf.Clamp01(path.turnBoundaries[path.finishLineIndex].DistanceFromPoint(pos2D) / stoppingDst);
-        
-                        if(speedPercent < 0.01f)
-                        {
-                            followingPath = false;
-                        }
+                        followingPath = false;
                     }
-                    Quaternion targetRotation = Quaternion.LookRotation(path.lookPoints[pathIndex] - transform.position);
-                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
-                    transform.Translate(Vector3.forward * Time.deltaTime * speed * speedPercent, Space.Self);
-                }               
+                }
+
+                Quaternion targetRotation = Quaternion.LookRotation(path.lookPoints[pathIndex] - transform.position);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
+                transform.Translate(Vector3.forward * Time.deltaTime * speed * speedPercent, Space.Self);
+            }               
             yield return null;
         }
     }
