@@ -21,6 +21,11 @@ public class Heap<T> where T : IHeapItem<T>
         currentItemsCount++;
     }
 
+    public T GetLast()
+    {
+        return items[items.Length - 1];
+    }
+
     public T RemoveFirst()
     {
         T firstItem = items[0];

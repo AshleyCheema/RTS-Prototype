@@ -44,6 +44,34 @@ public class Pathfinding : MonoBehaviour
                     break;
                 }
 
+                /*
+                RaycastHit hit;
+                if(Physics.Raycast(currentNode.worldPosition, targetNode.worldPosition - currentNode.worldPosition, out hit, 1000))
+                {
+                    float disToTarget = Vector3.Distance(currentNode.worldPosition, targetNode.worldPosition);
+                    float pointDis = Vector3.Distance(currentNode.worldPosition, hit.point);
+                    if(disToTarget < pointDis)
+                    {
+                        Debug.Break();
+                    }
+                }
+                else
+                {
+                    currentNode.parent = openSet.GetLast();
+                    openSet.Add(currentNode);
+
+                    currentNode = targetNode;
+                    currentNode.parent = openSet.GetLast();
+                    openSet.Add(targetNode);
+
+                    sw.Stop();
+                    Debug.Log("Path " + sw.ElapsedMilliseconds);
+
+                    pathSuccess = true;
+                    break;
+                }
+                */
+
                 foreach (Node neighbour in grid.GetNeighbours(currentNode))
                 {
                     if (!neighbour.walkable || closedSet.Contains(neighbour))
