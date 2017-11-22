@@ -12,12 +12,13 @@ public class Unit : MonoBehaviour
     public float turnDst = 5;
     public float turnSpeed = 3;
     public float stoppingDst = 10;
+    public bool isSelected = false;
 
     //Vector3[] path;
     //int targetIndex;
     Path path;
 
-    private void Start()
+    public void StartPath()
     {
         StartCoroutine(UpdatePath());
     }
