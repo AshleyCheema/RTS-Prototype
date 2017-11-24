@@ -11,22 +11,37 @@ public class Controls : MonoBehaviour
     public bool isDragging = false;
     public GameObject canvasImage;
     public GameObject target;
+
     private Rect rec;
     private List<GameObject> _selectedUnits;
-    
-    Vector2 recPos;
-    GameObject[] units;
+    private float FOV;
+    private Vector2 recPos;
+    private GameObject[] units;
 
     private void Start()
     {
         canvasImage.SetActive(false);
         units = GameObject.FindGameObjectsWithTag("Units");
         _selectedUnits = new List<GameObject>();
+        FOV = 60f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        Camera.main.fieldOfView = FOV;
+
+        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        {
+            FOV--;
+            FOV = Mathf.Clamp(FOV, 25, 100);
+        }
+        else if(Input.GetAxis("Mouse ScrollWheel") < 0)
+        {
+            FOV++;
+            FOV = Mathf.Clamp(FOV, 25, 100);
+        }
+
         if (Input.GetMouseButtonUp(0))
         {
             isDragging = false;
