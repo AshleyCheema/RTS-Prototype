@@ -11,12 +11,14 @@ public class Controls : MonoBehaviour
     public bool isDragging = false;
     public GameObject canvasImage;
     public GameObject target;
+    public float panSpeed = 20f;
 
     private Rect rec;
     private List<GameObject> _selectedUnits;
     private float FOV;
     private Vector2 recPos;
     private GameObject[] units;
+    private MoveTo moveTo;
 
     private void Start()
     {
@@ -31,6 +33,7 @@ public class Controls : MonoBehaviour
     {
         Camera.main.fieldOfView = FOV;
 
+        //Using the scroll wheel we can zoom in and zoom out of the map but only between the range of 25 and 100
         if (Input.GetAxis("Mouse ScrollWheel") > 0)
         {
             FOV--;
@@ -42,6 +45,8 @@ public class Controls : MonoBehaviour
             FOV = Mathf.Clamp(FOV, 25, 100);
         }
 
+        //If the button is up then ray trace and if the object is hit with the tag "Units"
+        //Then select that unit 
         if (Input.GetMouseButtonUp(0))
         {
             isDragging = false;
@@ -53,18 +58,23 @@ public class Controls : MonoBehaviour
 
                 if (hit.collider.tag == "Units")
                 {
-                    AddSelectedUnit(hit.collider.GetComponent<Unit>());
-                    hit.collider.gameObject.GetComponent<Unit>().isSelected = true;
+                    AddSelectedUnit(hit.collider.GetComponent<UnitS>());
+                    hit.collider.gameObject.GetComponent<UnitS>().IsSelected = true;
                     canvasImage.transform.position = Camera.main.WorldToScreenPoint(hit.collider.transform.position);
                     Rect rec = new Rect(0, 0, 30, 60);
+                    GetComponent<MoveTo>().MoveToTarget();
+
                 }
                 else
                 {
+                    //if selected elsewhere then select is turned to false
                     isSelected = false;
                 }
             }
         }
 
+        //If left mouse button is down then dragging is true, set canvas image is also true. Then create a new rect at current mouse position
+        //This allows for many units to be selected at once
         else if (Input.GetMouseButtonDown(0))
         {
             rec = new Rect(Input.mousePosition.x, Input.mousePosition.y, 0, 0);
@@ -74,14 +84,12 @@ public class Controls : MonoBehaviour
             recPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
         }
 
+        //If right mouse button is down check if units have been selected
+        //Then do function, else disable target so it is not active.
         if(Input.GetMouseButtonDown(1))
         {
             if (_selectedUnits.Count > 0)
             {
-                for (int i = 0; i < _selectedUnits.Count; i++)
-                {
-                    _selectedUnits[i].GetComponent<Unit>().StartPath();
-                }
                 MoveTarget();
             }
         }
@@ -90,6 +98,8 @@ public class Controls : MonoBehaviour
             target.SetActive(false);
         }
 
+        //If is dragging is true, then depending which way the user is dragging the image
+        //depends how it will be drawn. This is because the image if flipped has no back face
         if (isDragging)
         {
             if (Input.mousePosition.y < recPos.y && Input.mousePosition.x > recPos.x)
@@ -126,26 +136,32 @@ public class Controls : MonoBehaviour
             canvasImage.GetComponent<RectTransform>().sizeDelta = new Vector2(rec.width, rec.height);
         }
 
+        //This check whether there are units underneath the image can makes them selected units
         if(isDragging)
         {
             for(int i = 0; i < units.Length; ++i)
             {
                 if( rec.Contains( Camera.main.WorldToScreenPoint(units[i].transform.position)))
                 {
-                    units[i].GetComponent<Unit>().isSelected = true;
+                    units[i].GetComponent<UnitS>().IsSelected = true;
                     isSelected = true;
-                    AddSelectedUnit(units[i].GetComponent<Unit>());
+                    AddSelectedUnit(units[i].GetComponent<UnitS>());
                 }
                 else
                 {
-                    units[i].GetComponent<Unit>().isSelected = false;
-                    RemoveSelectedUnit(units[i].GetComponent<Unit>());
+                    if (units[i].GetComponent<UnitS>())
+                    {
+                        units[i].GetComponent<UnitS>().IsSelected = false;
+                        RemoveSelectedUnit(units[i].GetComponent<UnitS>());
+                    }
                 }
             }
         }
         Debug.Log(_selectedUnits.Count);
     }
-
+    /// <summary>
+    /// Moves target position. 
+    /// </summary>
     public void MoveTarget()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -158,7 +174,11 @@ public class Controls : MonoBehaviour
         }
     }
 
-    public void AddSelectedUnit(Unit a_unit)
+    /// <summary>
+    /// Add a selected unit to a selected unit list <see cref="UnitS"/>
+    /// </summary>
+    /// <param name="a_unit"></param>
+    public void AddSelectedUnit(UnitS a_unit)
     {
         if(!_selectedUnits.Contains(a_unit.gameObject))
         {
@@ -166,7 +186,7 @@ public class Controls : MonoBehaviour
         }
     }
 
-    public void RemoveSelectedUnit(Unit a_unit)
+    public void RemoveSelectedUnit(UnitS a_unit)
     {
         if(_selectedUnits.Contains(a_unit.gameObject))
         {

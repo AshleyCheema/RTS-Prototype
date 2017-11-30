@@ -111,7 +111,7 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: a9bd276a6ce9b6e4984da55978192f9b, type: 2}
 --- !u!1 &6917334
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,6 +192,8 @@ GameObject:
   - component: {fileID: 47968264}
   - component: {fileID: 47968263}
   - component: {fileID: 47968262}
+  - component: {fileID: 47968267}
+  - component: {fileID: 47968268}
   m_Layer: 0
   m_Name: Seeker (8)
   m_TagString: Units
@@ -205,17 +207,11 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 47968261}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61780646c29ce334e8cad48b5647af84, type: 3}
+  m_Script: {fileID: 11500000, guid: cbf4d3d1ec3c2cd4f9f66b70577f1479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 523120599}
-  speed: 20
-  turnDst: 4
-  turnSpeed: 6
-  stoppingDst: 5
-  isSelected: 0
 --- !u!23 &47968263
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -283,6 +279,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!195 &47968267
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 47968261}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 10
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 300
+  m_StoppingDistance: 5
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &47968268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 47968261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af43d615873cedc45950cec975e26020, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsSelected: 0
 --- !u!1 &193125013
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,8 +327,8 @@ GameObject:
   m_Name: Cube (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!23 &193125014
 MeshRenderer:
@@ -361,7 +390,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 193125013}
   m_LocalRotation: {x: -0, y: 0.96592605, z: -0, w: -0.25881842}
-  m_LocalPosition: {x: 19.7, y: 3.11, z: -14.2}
+  m_LocalPosition: {x: 26.7, y: 3.11, z: -4.2}
   m_LocalScale: {x: 7.416061, y: 6.1977706, z: 79.35075}
   m_Children: []
   m_Father: {fileID: 0}
@@ -444,6 +473,8 @@ GameObject:
   - component: {fileID: 424852091}
   - component: {fileID: 424852090}
   - component: {fileID: 424852089}
+  - component: {fileID: 424852094}
+  - component: {fileID: 424852095}
   m_Layer: 0
   m_Name: Seeker (6)
   m_TagString: Units
@@ -457,17 +488,11 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 424852088}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61780646c29ce334e8cad48b5647af84, type: 3}
+  m_Script: {fileID: 11500000, guid: cbf4d3d1ec3c2cd4f9f66b70577f1479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 523120599}
-  speed: 20
-  turnDst: 4
-  turnSpeed: 6
-  stoppingDst: 5
-  isSelected: 0
 --- !u!23 &424852090
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -535,6 +560,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!195 &424852094
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 424852088}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 10
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 300
+  m_StoppingDistance: 5
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &424852095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 424852088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af43d615873cedc45950cec975e26020, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsSelected: 0
 --- !u!1 &523120595
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,7 +610,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!23 &523120596
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -632,6 +690,8 @@ GameObject:
   - component: {fileID: 527465126}
   - component: {fileID: 527465125}
   - component: {fileID: 527465124}
+  - component: {fileID: 527465129}
+  - component: {fileID: 527465130}
   m_Layer: 0
   m_Name: Seeker (4)
   m_TagString: Units
@@ -645,17 +705,11 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 527465123}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61780646c29ce334e8cad48b5647af84, type: 3}
+  m_Script: {fileID: 11500000, guid: cbf4d3d1ec3c2cd4f9f66b70577f1479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 523120599}
-  speed: 20
-  turnDst: 4
-  turnSpeed: 6
-  stoppingDst: 5
-  isSelected: 0
 --- !u!23 &527465125
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -723,6 +777,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!195 &527465129
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 527465123}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 10
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 300
+  m_StoppingDistance: 5
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &527465130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 527465123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af43d615873cedc45950cec975e26020, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsSelected: 0
 --- !u!1 &657491611
 GameObject:
   m_ObjectHideFlags: 0
@@ -738,8 +825,8 @@ GameObject:
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!23 &657491612
 MeshRenderer:
@@ -822,8 +909,8 @@ GameObject:
   m_Name: Cube (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!23 &671145758
 MeshRenderer:
@@ -885,7 +972,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 671145757}
   m_LocalRotation: {x: 0.0031042984, y: 0.52344966, z: 0.010682765, w: -0.85198396}
-  m_LocalPosition: {x: -15.4, y: 3.2, z: -30.5}
+  m_LocalPosition: {x: -14.9, y: 3.2, z: -29.4}
   m_LocalScale: {x: 23.988508, y: 6.1977706, z: 6.20922}
   m_Children: []
   m_Father: {fileID: 0}
@@ -906,8 +993,8 @@ GameObject:
   m_Name: Cube (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!23 &939353905
 MeshRenderer:
@@ -987,6 +1074,8 @@ GameObject:
   - component: {fileID: 1020585288}
   - component: {fileID: 1020585287}
   - component: {fileID: 1020585286}
+  - component: {fileID: 1020585291}
+  - component: {fileID: 1020585292}
   m_Layer: 0
   m_Name: Seeker (7)
   m_TagString: Units
@@ -1000,17 +1089,11 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1020585285}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61780646c29ce334e8cad48b5647af84, type: 3}
+  m_Script: {fileID: 11500000, guid: cbf4d3d1ec3c2cd4f9f66b70577f1479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 523120599}
-  speed: 20
-  turnDst: 4
-  turnSpeed: 6
-  stoppingDst: 5
-  isSelected: 0
 --- !u!23 &1020585287
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1078,6 +1161,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!195 &1020585291
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1020585285}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 10
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 300
+  m_StoppingDistance: 5
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &1020585292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1020585285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af43d615873cedc45950cec975e26020, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsSelected: 0
 --- !u!1 &1131606511
 GameObject:
   m_ObjectHideFlags: 0
@@ -1093,8 +1209,8 @@ GameObject:
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!23 &1131606512
 MeshRenderer:
@@ -1174,6 +1290,8 @@ GameObject:
   - component: {fileID: 1144168726}
   - component: {fileID: 1144168725}
   - component: {fileID: 1144168724}
+  - component: {fileID: 1144168729}
+  - component: {fileID: 1144168730}
   m_Layer: 0
   m_Name: Seeker (9)
   m_TagString: Units
@@ -1187,17 +1305,11 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1144168723}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61780646c29ce334e8cad48b5647af84, type: 3}
+  m_Script: {fileID: 11500000, guid: cbf4d3d1ec3c2cd4f9f66b70577f1479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 523120599}
-  speed: 20
-  turnDst: 4
-  turnSpeed: 6
-  stoppingDst: 5
-  isSelected: 0
 --- !u!23 &1144168725
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1265,6 +1377,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!195 &1144168729
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1144168723}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 10
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 300
+  m_StoppingDistance: 5
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &1144168730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1144168723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af43d615873cedc45950cec975e26020, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsSelected: 0
 --- !u!1 &1169522288
 GameObject:
   m_ObjectHideFlags: 0
@@ -1339,7 +1484,8 @@ GameObject:
   - component: {fileID: 1235045511}
   - component: {fileID: 1235045510}
   - component: {fileID: 1235045514}
-  - component: {fileID: 1235045515}
+  - component: {fileID: 1235045516}
+  - component: {fileID: 1235045517}
   m_Layer: 0
   m_Name: Seeker
   m_TagString: Units
@@ -1414,7 +1560,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1235045514
+--- !u!195 &1235045514
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1235045509}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 10
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 300
+  m_StoppingDistance: 5
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &1235045516
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -1422,30 +1589,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1235045509}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61780646c29ce334e8cad48b5647af84, type: 3}
+  m_Script: {fileID: 11500000, guid: cbf4d3d1ec3c2cd4f9f66b70577f1479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 523120599}
-  speed: 20
-  turnDst: 4
-  turnSpeed: 6
-  stoppingDst: 5
-  isSelected: 0
---- !u!114 &1235045515
+--- !u!114 &1235045517
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1235045509}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15b402b9c7a888b459bc388c641e9a1e, type: 3}
+  m_Script: {fileID: 11500000, guid: af43d615873cedc45950cec975e26020, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSelected: 0
-  isDragging: 0
-  canvasImage: {fileID: 6917334}
-  target: {fileID: 523120595}
+  IsSelected: 0
 --- !u!1 &1279882254
 GameObject:
   m_ObjectHideFlags: 0
@@ -1555,8 +1713,8 @@ GameObject:
   m_Name: Cube (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!23 &1327026942
 MeshRenderer:
@@ -1636,6 +1794,8 @@ GameObject:
   - component: {fileID: 1361273087}
   - component: {fileID: 1361273086}
   - component: {fileID: 1361273085}
+  - component: {fileID: 1361273091}
+  - component: {fileID: 1361273090}
   m_Layer: 0
   m_Name: Seeker (3)
   m_TagString: Units
@@ -1649,17 +1809,11 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1361273084}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61780646c29ce334e8cad48b5647af84, type: 3}
+  m_Script: {fileID: 11500000, guid: cbf4d3d1ec3c2cd4f9f66b70577f1479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 523120599}
-  speed: 20
-  turnDst: 4
-  turnSpeed: 6
-  stoppingDst: 5
-  isSelected: 0
 --- !u!23 &1361273086
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1727,6 +1881,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!195 &1361273090
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1361273084}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 10
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 300
+  m_StoppingDistance: 5
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &1361273091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1361273084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af43d615873cedc45950cec975e26020, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsSelected: 0
 --- !u!1 &1469769778
 GameObject:
   m_ObjectHideFlags: 0
@@ -1742,8 +1929,8 @@ GameObject:
   m_Name: Cube (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!23 &1469769779
 MeshRenderer:
@@ -1827,7 +2014,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!23 &1478106479
 MeshRenderer:
@@ -1909,6 +2096,8 @@ GameObject:
   - component: {fileID: 1559498662}
   - component: {fileID: 1559498661}
   - component: {fileID: 1559498660}
+  - component: {fileID: 1559498665}
+  - component: {fileID: 1559498666}
   m_Layer: 0
   m_Name: Seeker (1)
   m_TagString: Units
@@ -1922,17 +2111,11 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1559498659}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61780646c29ce334e8cad48b5647af84, type: 3}
+  m_Script: {fileID: 11500000, guid: cbf4d3d1ec3c2cd4f9f66b70577f1479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 523120599}
-  speed: 20
-  turnDst: 4
-  turnSpeed: 6
-  stoppingDst: 5
-  isSelected: 0
 --- !u!23 &1559498661
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2000,6 +2183,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!195 &1559498665
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1559498659}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 10
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 300
+  m_StoppingDistance: 5
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &1559498666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1559498659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af43d615873cedc45950cec975e26020, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsSelected: 0
 --- !u!1 &1574216960
 GameObject:
   m_ObjectHideFlags: 0
@@ -2082,6 +2298,8 @@ GameObject:
   - component: {fileID: 1684082866}
   - component: {fileID: 1684082865}
   - component: {fileID: 1684082864}
+  - component: {fileID: 1684082869}
+  - component: {fileID: 1684082870}
   m_Layer: 0
   m_Name: Seeker (2)
   m_TagString: Units
@@ -2095,17 +2313,11 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1684082863}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61780646c29ce334e8cad48b5647af84, type: 3}
+  m_Script: {fileID: 11500000, guid: cbf4d3d1ec3c2cd4f9f66b70577f1479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 523120599}
-  speed: 20
-  turnDst: 4
-  turnSpeed: 6
-  stoppingDst: 5
-  isSelected: 0
 --- !u!23 &1684082865
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2173,6 +2385,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!195 &1684082869
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1684082863}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 10
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 300
+  m_StoppingDistance: 5
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &1684082870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1684082863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af43d615873cedc45950cec975e26020, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsSelected: 0
 --- !u!1 &1701514205
 GameObject:
   m_ObjectHideFlags: 0
@@ -2269,6 +2514,7 @@ MonoBehaviour:
   isDragging: 0
   canvasImage: {fileID: 6917334}
   target: {fileID: 523120595}
+  panSpeed: 20
 --- !u!1 &1883932437
 GameObject:
   m_ObjectHideFlags: 0
@@ -2284,8 +2530,8 @@ GameObject:
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!23 &1883932438
 MeshRenderer:
@@ -2368,8 +2614,8 @@ GameObject:
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!23 &2043424236
 MeshRenderer:
@@ -2449,6 +2695,8 @@ GameObject:
   - component: {fileID: 2119749313}
   - component: {fileID: 2119749312}
   - component: {fileID: 2119749311}
+  - component: {fileID: 2119749316}
+  - component: {fileID: 2119749317}
   m_Layer: 0
   m_Name: Seeker (5)
   m_TagString: Units
@@ -2462,17 +2710,11 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2119749310}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61780646c29ce334e8cad48b5647af84, type: 3}
+  m_Script: {fileID: 11500000, guid: cbf4d3d1ec3c2cd4f9f66b70577f1479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 523120599}
-  speed: 20
-  turnDst: 4
-  turnSpeed: 6
-  stoppingDst: 5
-  isSelected: 0
 --- !u!23 &2119749312
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2540,3 +2782,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!195 &2119749316
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2119749310}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 10
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 300
+  m_StoppingDistance: 5
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &2119749317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2119749310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af43d615873cedc45950cec975e26020, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsSelected: 0
