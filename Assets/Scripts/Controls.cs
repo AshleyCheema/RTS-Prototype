@@ -22,6 +22,8 @@ public class Controls : MonoBehaviour
 
     private void Start()
     {
+        Application.runInBackground = true;
+
         canvasImage.SetActive(false);
         units = GameObject.FindGameObjectsWithTag("Units");
         _selectedUnits = new List<GameObject>();
@@ -52,6 +54,8 @@ public class Controls : MonoBehaviour
             isDragging = false;
             ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
+            // shoot a ray into the scene from the camera
+            // if an object with a collider is hit return true
             if (Physics.Raycast(ray, out hit))
             {
                 canvasImage.SetActive(false);
@@ -62,7 +66,7 @@ public class Controls : MonoBehaviour
                     hit.collider.gameObject.GetComponent<UnitS>().IsSelected = true;
                     canvasImage.transform.position = Camera.main.WorldToScreenPoint(hit.collider.transform.position);
                     Rect rec = new Rect(0, 0, 30, 60);
-                    GetComponent<MoveTo>().MoveToTarget();
+                    //moveTo = hit.collider.GetComponent<MoveTo>();
 
                 }
                 else
@@ -70,6 +74,14 @@ public class Controls : MonoBehaviour
                     //if selected elsewhere then select is turned to false
                     isSelected = false;
                 }
+            }
+            // If the raycast hits nothing with a collider on it 
+            // then disable the canvasImage and reset the rec object
+            else
+            {
+                canvasImage.SetActive(false);
+                Rect rec = new Rect(0, 0, 30, 60);
+
             }
         }
 
@@ -143,16 +155,24 @@ public class Controls : MonoBehaviour
             {
                 if( rec.Contains( Camera.main.WorldToScreenPoint(units[i].transform.position)))
                 {
-                    units[i].GetComponent<UnitS>().IsSelected = true;
+                    UnitS unitS = units[i].GetComponent<UnitS>();
+                    unitS.IsSelected = true;
+                    AddSelectedUnit(unitS);
+                    //units[i].GetComponent<UnitS>().IsSelected = true;
                     isSelected = true;
-                    AddSelectedUnit(units[i].GetComponent<UnitS>());
+                    //AddSelectedUnit(units[i].GetComponent<UnitS>());
+                    //moveTo = units[i].GetComponent<MoveTo>();
                 }
                 else
                 {
                     if (units[i].GetComponent<UnitS>())
                     {
-                        units[i].GetComponent<UnitS>().IsSelected = false;
-                        RemoveSelectedUnit(units[i].GetComponent<UnitS>());
+                        UnitS unitS = units[i].GetComponent<UnitS>();
+                        unitS.IsSelected = false;
+                        RemoveSelectedUnit(unitS);
+
+                        //units[i].GetComponent<UnitS>().IsSelected = false;
+                        //RemoveSelectedUnit(units[i].GetComponent<UnitS>());
                     }
                 }
             }
@@ -171,6 +191,11 @@ public class Controls : MonoBehaviour
         {
             target.transform.position = Camera.main.WorldToScreenPoint(hit.collider.transform.position);
             target.transform.position = hit.point;
+            //moveTo.MoveToTarget();
+            for (int i = 0; i < _selectedUnits.Count; i++)
+            {
+                _selectedUnits[i].GetComponent<UnitS>().MoveToTarget();
+            }
         }
     }
 
