@@ -12,7 +12,9 @@ public class Controls : MonoBehaviour
     public GameObject canvasImage;
     public GameObject target;
     public float panSpeed = 20f;
+    public float panBorderThickness = 10f;
 
+    public Vector2 panLimit;
     private Rect rec;
     private List<GameObject> _selectedUnits;
     private float FOV;
@@ -34,6 +36,7 @@ public class Controls : MonoBehaviour
     void Update()
     {
         Camera.main.fieldOfView = FOV;
+        Vector3 pos = transform.position;
 
         //Using the scroll wheel we can zoom in and zoom out of the map but only between the range of 25 and 100
         if (Input.GetAxis("Mouse ScrollWheel") > 0)
@@ -46,6 +49,32 @@ public class Controls : MonoBehaviour
             FOV++;
             FOV = Mathf.Clamp(FOV, 25, 100);
         }
+
+        //This is the camera movemoment, which allows for mouse and keyboard inputs
+        if (Application.isFocused)
+        {
+            if (Input.GetKey("w") || Input.mousePosition.y >= Screen.height - panBorderThickness)
+            {
+                pos.z += panSpeed * Time.deltaTime;
+            }
+            else if (Input.GetKey("s") || Input.mousePosition.y <= panBorderThickness)
+            {
+                pos.z -= panSpeed * Time.deltaTime;
+            }
+            if (Input.GetKey("a") || Input.mousePosition.x <= panBorderThickness)
+            {
+                pos.x -= panSpeed * Time.deltaTime;
+            }
+            else if (Input.GetKey("d") || Input.mousePosition.x >= Screen.width - panBorderThickness)
+            {
+                pos.x += panSpeed * Time.deltaTime;
+            }
+
+            pos.x = Mathf.Clamp(pos.x, -panLimit.x, panLimit.x);
+            pos.z = Mathf.Clamp(pos.z, -panLimit.y, panLimit.y);
+        }
+        transform.position = pos;
+
 
         //If the button is up then ray trace and if the object is hit with the tag "Units"
         //Then select that unit 
@@ -66,8 +95,6 @@ public class Controls : MonoBehaviour
                     hit.collider.gameObject.GetComponent<UnitS>().IsSelected = true;
                     canvasImage.transform.position = Camera.main.WorldToScreenPoint(hit.collider.transform.position);
                     Rect rec = new Rect(0, 0, 30, 60);
-                    //moveTo = hit.collider.GetComponent<MoveTo>();
-
                 }
                 else
                 {
@@ -114,38 +141,7 @@ public class Controls : MonoBehaviour
         //depends how it will be drawn. This is because the image if flipped has no back face
         if (isDragging)
         {
-            if (Input.mousePosition.y < recPos.y && Input.mousePosition.x > recPos.x)
-            {
-                rec.width = Input.mousePosition.x - recPos.x;
-
-                rec.height = recPos.y - Input.mousePosition.y;
-                rec.y = Input.mousePosition.y;
-                Debug.Log(rec.height);
-            }
-            else if(Input.mousePosition.y < recPos.y && Input.mousePosition.x < recPos.x)
-            {
-                rec.width = recPos.x - Input.mousePosition.x;
-                rec.x = Input.mousePosition.x;
-
-                rec.height = recPos.y - Input.mousePosition.y;
-                rec.y = Input.mousePosition.y;
-            }
-            else if(Input.mousePosition.y > recPos.y && Input.mousePosition.x < recPos.x)
-            {
-                rec.width = recPos.x - Input.mousePosition.x;
-                rec.x = Input.mousePosition.x;
-
-                rec.height = Input.mousePosition.y - recPos.y;
-            }
-            else
-            {
-                rec.width = Input.mousePosition.x - rec.x;
-                rec.height = Input.mousePosition.y - rec.y;
-               // Debug.Log(rec);
-            }
-
-            canvasImage.transform.position = new Vector3(rec.x, rec.y, 0);
-            canvasImage.GetComponent<RectTransform>().sizeDelta = new Vector2(rec.width, rec.height);
+            DrawRect();
         }
 
         //This check whether there are units underneath the image can makes them selected units
@@ -158,10 +154,7 @@ public class Controls : MonoBehaviour
                     UnitS unitS = units[i].GetComponent<UnitS>();
                     unitS.IsSelected = true;
                     AddSelectedUnit(unitS);
-                    //units[i].GetComponent<UnitS>().IsSelected = true;
                     isSelected = true;
-                    //AddSelectedUnit(units[i].GetComponent<UnitS>());
-                    //moveTo = units[i].GetComponent<MoveTo>();
                 }
                 else
                 {
@@ -170,9 +163,6 @@ public class Controls : MonoBehaviour
                         UnitS unitS = units[i].GetComponent<UnitS>();
                         unitS.IsSelected = false;
                         RemoveSelectedUnit(unitS);
-
-                        //units[i].GetComponent<UnitS>().IsSelected = false;
-                        //RemoveSelectedUnit(units[i].GetComponent<UnitS>());
                     }
                 }
             }
@@ -191,7 +181,6 @@ public class Controls : MonoBehaviour
         {
             target.transform.position = Camera.main.WorldToScreenPoint(hit.collider.transform.position);
             target.transform.position = hit.point;
-            //moveTo.MoveToTarget();
             for (int i = 0; i < _selectedUnits.Count; i++)
             {
                 _selectedUnits[i].GetComponent<UnitS>().MoveToTarget();
@@ -222,5 +211,45 @@ public class Controls : MonoBehaviour
     public void RemoveAllSelected()
     {
         _selectedUnits.Clear();
+    }
+
+    /// <summary>
+    /// This function is called when the mosue buttons is dragging
+    /// It creates a rect that selects the units.
+    /// </summary>
+    private void DrawRect()
+    {
+        if (Input.mousePosition.y < recPos.y && Input.mousePosition.x > recPos.x)
+        {
+            rec.width = Input.mousePosition.x - recPos.x;
+
+            rec.height = recPos.y - Input.mousePosition.y;
+            rec.y = Input.mousePosition.y;
+            Debug.Log(rec.height);
+        }
+        else if (Input.mousePosition.y < recPos.y && Input.mousePosition.x < recPos.x)
+        {
+            rec.width = recPos.x - Input.mousePosition.x;
+            rec.x = Input.mousePosition.x;
+
+            rec.height = recPos.y - Input.mousePosition.y;
+            rec.y = Input.mousePosition.y;
+        }
+        else if (Input.mousePosition.y > recPos.y && Input.mousePosition.x < recPos.x)
+        {
+            rec.width = recPos.x - Input.mousePosition.x;
+            rec.x = Input.mousePosition.x;
+
+            rec.height = Input.mousePosition.y - recPos.y;
+        }
+        else
+        {
+            rec.width = Input.mousePosition.x - rec.x;
+            rec.height = Input.mousePosition.y - rec.y;
+            // Debug.Log(rec);
+        }
+
+        canvasImage.transform.position = new Vector3(rec.x, rec.y, 0);
+        canvasImage.GetComponent<RectTransform>().sizeDelta = new Vector2(rec.width, rec.height);
     }
 }

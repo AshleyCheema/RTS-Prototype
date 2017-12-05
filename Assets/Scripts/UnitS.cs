@@ -9,27 +9,33 @@ public class UnitS : MonoBehaviour
     //float maxSpeed = 30;
     //float minSpeed = 3.5f;
     public bool IsSelected = false;
-    GameObject goDes;
-    NavMeshAgent xNacMeshAgent;
+    private GameObject goDes;
+    private NavMeshAgent xNacMeshAgent;
+    private Color isSelectedColor = Color.red;
+    private Color notSelectedColor = Color.white;
+    private Renderer rend;
+
 
     private void Start()
     {
-        //_agent = GetComponent<NavMeshAgent>();
-
         goDes = GameObject.FindGameObjectWithTag("Player");
-
         xNacMeshAgent = GetComponent<NavMeshAgent>();
+        rend = GetComponent<Renderer>();
     }
 
     private void Update()
     {
         if(IsSelected == true)
         {
-            //MoveToTarget();
+            rend.material.color = isSelectedColor;
+        }
+        else
+        {
+            rend.material.color = notSelectedColor;
         }
     }
 
-    /// <summary> Move the loal Vector3 dst position and move 
+    /// <summary> Move the local Vector3 dst position and move 
     /// the unit towards it
     /// </summary>
     public void MoveToTarget()
