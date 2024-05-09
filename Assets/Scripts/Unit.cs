@@ -14,9 +14,22 @@ public class Unit : MonoBehaviour
     public float stoppingDst = 10;
     public bool isSelected = false;
 
+    [SerializeField]
+    private GameObject selectedHighlight;
+
     //Vector3[] path;
     //int targetIndex;
     Path path;
+
+    private void Start()
+    {
+        SelectionManager.instance.allUnits.Add(this);
+    }
+
+    private void OnDestroy()
+    {
+        SelectionManager.instance.allUnits.Remove(this);
+    }
 
     public void StartPath()
     {
@@ -97,6 +110,11 @@ public class Unit : MonoBehaviour
             }               
             yield return null;
         }
+    }
+
+    public void UnitSelected(bool isSelected)
+    {
+        selectedHighlight.SetActive(isSelected);
     }
 
     public void OnDrawGizmos()

@@ -16,12 +16,12 @@ public class Controls : MonoBehaviour
     private List<GameObject> _selectedUnits;
     private float FOV;
     private Vector2 recPos;
-    private GameObject[] units;
+    private SelectionManager selectionManager;
 
     private void Start()
     {
+        selectionManager = SelectionManager.instance;
         canvasImage.SetActive(false);
-        units = GameObject.FindGameObjectsWithTag("Units");
         _selectedUnits = new List<GameObject>();
         FOV = 60f;
     }
@@ -54,7 +54,7 @@ public class Controls : MonoBehaviour
                 if (hit.collider.tag == "Units")
                 {
                     AddSelectedUnit(hit.collider.GetComponent<Unit>());
-                    hit.collider.gameObject.GetComponent<Unit>().isSelected = true;
+                    hit.collider.gameObject.GetComponent<Unit>().UnitSelected(true);
                     canvasImage.transform.position = Camera.main.WorldToScreenPoint(hit.collider.transform.position);
                     Rect rec = new Rect(0, 0, 30, 60);
                 }
@@ -98,7 +98,7 @@ public class Controls : MonoBehaviour
 
                 rec.height = recPos.y - Input.mousePosition.y;
                 rec.y = Input.mousePosition.y;
-                Debug.Log(rec.height);
+                //Debug.Log(rec.height);
             }
             else if(Input.mousePosition.y < recPos.y && Input.mousePosition.x < recPos.x)
             {
@@ -128,22 +128,21 @@ public class Controls : MonoBehaviour
 
         if(isDragging)
         {
-            for(int i = 0; i < units.Length; ++i)
+            for(int i = 0; i < selectionManager.allUnits.Count; ++i)
             {
-                if( rec.Contains( Camera.main.WorldToScreenPoint(units[i].transform.position)))
+                if( rec.Contains(Camera.main.WorldToScreenPoint(selectionManager.allUnits[i].transform.position)))
                 {
-                    units[i].GetComponent<Unit>().isSelected = true;
                     isSelected = true;
-                    AddSelectedUnit(units[i].GetComponent<Unit>());
+                    AddSelectedUnit(selectionManager.allUnits[i]);
+                    selectionManager.allUnits[i].UnitSelected(true);
                 }
                 else
                 {
-                    units[i].GetComponent<Unit>().isSelected = false;
-                    RemoveSelectedUnit(units[i].GetComponent<Unit>());
+                    RemoveSelectedUnit(selectionManager.allUnits[i]);
+                    selectionManager.allUnits[i].UnitSelected(false);
                 }
-            }
+            }   
         }
-        Debug.Log(_selectedUnits.Count);
     }
 
     public void MoveTarget()
@@ -160,22 +159,22 @@ public class Controls : MonoBehaviour
 
     public void AddSelectedUnit(Unit a_unit)
     {
-        if(!_selectedUnits.Contains(a_unit.gameObject))
+        if(!selectionManager.allUnits.Contains(a_unit))
         {
-            _selectedUnits.Add(a_unit.gameObject);
+            selectionManager.UnitsSelected.Add(a_unit);
         }
     }
 
     public void RemoveSelectedUnit(Unit a_unit)
     {
-        if(_selectedUnits.Contains(a_unit.gameObject))
+        if(selectionManager.allUnits.Contains(a_unit))
         {
-            _selectedUnits.Remove(a_unit.gameObject);
+            selectionManager.UnitsSelected.Remove(a_unit);
         }
     }
 
     public void RemoveAllSelected()
     {
-        _selectedUnits.Clear();
+        selectionManager.UnitsSelected.Clear();
     }
 }
