@@ -73,8 +73,14 @@ public class Controls : MonoBehaviour
                 {
                     selectionManager.UnitsSelected[i].GetComponent<Unit>().StartPath();
                 }
+                ShowPositionPointer(true);
                 MoveTarget();
             }
+        }
+
+        if(Input.GetMouseButtonUp(1))
+        {
+            ShowPositionPointer(false);
         }
 
         if (isDragging)
@@ -137,7 +143,6 @@ public class Controls : MonoBehaviour
     public void MoveTarget()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        target.SetActive(true);
 
         if (Physics.Raycast(ray, out hit))
         {
@@ -145,6 +150,12 @@ public class Controls : MonoBehaviour
             target.transform.position = hit.point;
         }
 
-        //target.SetActive(false);
+
+    }
+
+    //Temporary fix maybe... Would like to use an animation like in AoE
+    private void ShowPositionPointer(bool showPointer)
+    {
+        target.SetActive(showPointer);
     }
 }
