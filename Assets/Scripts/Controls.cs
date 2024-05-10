@@ -7,13 +7,11 @@ public class Controls : MonoBehaviour
 {
     RaycastHit hit;
     Ray ray;
-    public bool isSelected = false;
     public bool isDragging = false;
     public GameObject canvasImage;
     public GameObject target;
 
     private Rect rec;
-    private List<GameObject> _selectedUnits;
     private float FOV;
     private Vector2 recPos;
     private SelectionManager selectionManager;
@@ -22,7 +20,7 @@ public class Controls : MonoBehaviour
     {
         selectionManager = SelectionManager.instance;
         canvasImage.SetActive(false);
-        _selectedUnits = new List<GameObject>();
+        target.SetActive(false);
         FOV = 60f;
     }
 
@@ -50,44 +48,33 @@ public class Controls : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 canvasImage.SetActive(false);
-
-                if (hit.collider.tag == "Units")
+                
+                if (hit.collider.TryGetComponent(out Unit unit))
                 {
-                    AddSelectedUnit(hit.collider.GetComponent<Unit>());
-                    hit.collider.gameObject.GetComponent<Unit>().UnitSelected(true);
-                    canvasImage.transform.position = Camera.main.WorldToScreenPoint(hit.collider.transform.position);
-                    Rect rec = new Rect(0, 0, 30, 60);
-                }
-                else
-                {
-                    isSelected = false;
+                    selectionManager.AddSelectedUnit(unit);
+                    unit.UnitSelected(true);
                 }
             }
         }
 
         else if (Input.GetMouseButtonDown(0))
         {
-            rec = new Rect(Input.mousePosition.x, Input.mousePosition.y, 0, 0);
+            recPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            rec = new Rect(recPos.x, recPos.y, 0, 0);
             canvasImage.SetActive(true);
             isDragging = true;
-
-            recPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
         }
 
         if(Input.GetMouseButtonDown(1))
         {
-            if (_selectedUnits.Count > 0)
+            if (selectionManager.UnitsSelected.Count > 0)
             {
-                for (int i = 0; i < _selectedUnits.Count; i++)
+                for (int i = 0; i < selectionManager.UnitsSelected.Count; i++)
                 {
-                    _selectedUnits[i].GetComponent<Unit>().StartPath();
+                    selectionManager.UnitsSelected[i].GetComponent<Unit>().StartPath();
                 }
                 MoveTarget();
             }
-        }
-        else
-        {
-            target.SetActive(false);
         }
 
         if (isDragging)
@@ -130,16 +117,18 @@ public class Controls : MonoBehaviour
         {
             for(int i = 0; i < selectionManager.allUnits.Count; ++i)
             {
-                if( rec.Contains(Camera.main.WorldToScreenPoint(selectionManager.allUnits[i].transform.position)))
+                if(rec.Contains(Camera.main.WorldToScreenPoint(selectionManager.allUnits[i].transform.position)))
                 {
-                    isSelected = true;
-                    AddSelectedUnit(selectionManager.allUnits[i]);
-                    selectionManager.allUnits[i].UnitSelected(true);
+                    selectionManager.AddSelectedUnit(selectionManager.allUnits[i]);
+                    selectionManager.UnitsSelected[i].UnitSelected(true);
                 }
                 else
                 {
-                    RemoveSelectedUnit(selectionManager.allUnits[i]);
-                    selectionManager.allUnits[i].UnitSelected(false);
+                    selectionManager.RemoveSelectedUnit(selectionManager.allUnits[i]);
+                    if (selectionManager.UnitsSelected.Count < 0)
+                    {
+                        selectionManager.UnitsSelected[i].UnitSelected(false);
+                    }
                 }
             }   
         }
@@ -155,26 +144,7 @@ public class Controls : MonoBehaviour
             target.transform.position = Camera.main.WorldToScreenPoint(hit.collider.transform.position);
             target.transform.position = hit.point;
         }
-    }
 
-    public void AddSelectedUnit(Unit a_unit)
-    {
-        if(!selectionManager.allUnits.Contains(a_unit))
-        {
-            selectionManager.UnitsSelected.Add(a_unit);
-        }
-    }
-
-    public void RemoveSelectedUnit(Unit a_unit)
-    {
-        if(selectionManager.allUnits.Contains(a_unit))
-        {
-            selectionManager.UnitsSelected.Remove(a_unit);
-        }
-    }
-
-    public void RemoveAllSelected()
-    {
-        selectionManager.UnitsSelected.Clear();
+        //target.SetActive(false);
     }
 }

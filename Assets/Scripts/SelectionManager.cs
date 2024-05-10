@@ -20,4 +20,25 @@ public class SelectionManager : MonoBehaviour
             instance = this;
         }    
     }
+
+    public void AddSelectedUnit(Unit a_unit)
+    {
+        if (!UnitsSelected.Contains(a_unit))
+        {
+            UnitsSelected.Add(a_unit);
+        }
+    }
+
+    public void RemoveSelectedUnit(Unit a_unit)
+    {
+        if (UnitsSelected.Contains(a_unit))
+        {
+            UnitsSelected.Remove(a_unit);
+        }
+    }
+
+    public void RemoveAllSelected()
+    {
+        UnitsSelected.Clear();
+    }
 }

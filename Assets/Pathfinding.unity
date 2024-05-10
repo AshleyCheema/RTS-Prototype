@@ -2148,7 +2148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15b402b9c7a888b459bc388c641e9a1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSelected: 0
   isDragging: 0
   canvasImage: {fileID: 6917334}
   target: {fileID: 523120595}

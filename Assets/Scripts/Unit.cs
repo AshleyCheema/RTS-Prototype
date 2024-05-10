@@ -12,7 +12,6 @@ public class Unit : MonoBehaviour
     public float turnDst = 5;
     public float turnSpeed = 3;
     public float stoppingDst = 10;
-    public bool isSelected = false;
 
     [SerializeField]
     private GameObject selectedHighlight;
@@ -121,8 +120,7 @@ public class Unit : MonoBehaviour
     {
         if(path != null)
         {
-            path.DrawWithGizmos();
-            
+            path.DrawWithGizmos(); 
         }
     }
 
