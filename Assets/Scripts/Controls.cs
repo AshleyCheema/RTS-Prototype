@@ -134,7 +134,6 @@ public class Controls : MonoBehaviour
         {
             if (rec.Contains(Camera.main.WorldToScreenPoint(selectionManager.allUnits[i].transform.position)))
             {
-                Debug.Log(selectionManager.allUnits[i].name);
                 selectionManager.AddSelectedUnit(selectionManager.allUnits[i]);
                 selectionManager.allUnits[i].UnitSelected(true);
             }
@@ -142,8 +141,8 @@ public class Controls : MonoBehaviour
             {
                 if (selectionManager.UnitsSelected.Count > 0)
                 {
-                   //selectionManager.UnitsSelected[i].UnitSelected(false);
-                   //selectionManager.RemoveSelectedUnit(selectionManager.allUnits[i]);
+                    selectionManager.allUnits[i].UnitSelected(false);
+                    selectionManager.RemoveSelectedUnit(selectionManager.allUnits[i]);
                 }
             }
         }
