@@ -37,10 +37,11 @@ public class Controls : MonoBehaviour
             isDragging = false;
             isMouseDown = false;
 
+            //Update this to check what has been hit if adding building construction
             SelectUnit();
         }
 
-        else if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             isMouseDown = true;
             recPos = Input.mousePosition;
@@ -63,6 +64,7 @@ public class Controls : MonoBehaviour
         {
             ShowPositionPointer(false);
         }
+
         if (isMouseDown)
         {
             if (Vector3.Distance(Input.mousePosition, recPos) > draggingOffset && !isDragging)
@@ -99,9 +101,33 @@ public class Controls : MonoBehaviour
 
             if (hit.collider.TryGetComponent(out Unit unit))
             {
+                if (selectionManager.singularSelectedUnit != null && unit)
+                {
+                    DeslectionAllUnits();
+                }
+
+                selectionManager.singularSelectedUnit = unit;
                 selectionManager.AddSelectedUnit(unit);
                 unit.UnitSelected(true);
             }
+            else
+            {
+                DeslectionAllUnits();
+            }
+        }
+    }
+
+    private void DeslectionAllUnits()
+    {
+        if (selectionManager.singularSelectedUnit != null)
+        {
+            selectionManager.singularSelectedUnit.UnitSelected(false);
+            selectionManager.singularSelectedUnit = null;
+        }
+        
+        if(selectionManager.UnitsSelected.Count > 0)
+        {
+            selectionManager.RemoveAllSelected();
         }
     }
 

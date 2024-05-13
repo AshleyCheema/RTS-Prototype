@@ -9,6 +9,8 @@ public class SelectionManager : MonoBehaviour
     public List<Unit> allUnits = new List<Unit>();
     public List<Unit> UnitsSelected = new List<Unit>();
 
+    public Unit singularSelectedUnit;
+
     private void Awake()
     {
         if(instance != null && instance != this)
