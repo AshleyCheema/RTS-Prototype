@@ -101,12 +101,11 @@ public class Controls : MonoBehaviour
 
             if (hit.collider.TryGetComponent(out Unit unit))
             {
-                if (selectionManager.singularSelectedUnit != null && unit)
+                if (selectionManager.UnitsSelected.Count > 0)
                 {
                     DeslectionAllUnits();
                 }
 
-                selectionManager.singularSelectedUnit = unit;
                 selectionManager.AddSelectedUnit(unit);
                 unit.UnitSelected(true);
             }
@@ -119,12 +118,6 @@ public class Controls : MonoBehaviour
 
     private void DeslectionAllUnits()
     {
-        if (selectionManager.singularSelectedUnit != null)
-        {
-            selectionManager.singularSelectedUnit.UnitSelected(false);
-            selectionManager.singularSelectedUnit = null;
-        }
-        
         if(selectionManager.UnitsSelected.Count > 0)
         {
             selectionManager.RemoveAllSelected();
