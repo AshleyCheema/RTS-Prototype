@@ -2,24 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class Controls : MonoBehaviour
 {
     RaycastHit hit;
     Ray ray;
     public bool isDragging = false;
-    public GameObject canvasImage;
+    public RectTransform canvasImage;
     public GameObject target;
+    public int draggingOffset = 1; 
 
+    private bool isMouseDown;
     private Rect rec;
     private float FOV;
-    private Vector2 recPos;
+    private Vector3 recPos;
     private SelectionManager selectionManager;
 
     private void Start()
     {
         selectionManager = SelectionManager.instance;
-        canvasImage.SetActive(false);
+        canvasImage.gameObject.SetActive(false);
         target.SetActive(false);
         FOV = 60f;
     }
@@ -27,42 +30,20 @@ public class Controls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Camera.main.fieldOfView = FOV;
-
-        if (Input.GetAxis("Mouse ScrollWheel") > 0)
-        {
-            FOV--;
-            FOV = Mathf.Clamp(FOV, 25, 100);
-        }
-        else if(Input.GetAxis("Mouse ScrollWheel") < 0)
-        {
-            FOV++;
-            FOV = Mathf.Clamp(FOV, 25, 100);
-        }
+        AdjustFOV();
 
         if (Input.GetMouseButtonUp(0))
         {
             isDragging = false;
-            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            isMouseDown = false;
 
-            if (Physics.Raycast(ray, out hit))
-            {
-                canvasImage.SetActive(false);
-                
-                if (hit.collider.TryGetComponent(out Unit unit))
-                {
-                    selectionManager.AddSelectedUnit(unit);
-                    unit.UnitSelected(true);
-                }
-            }
+            SelectUnit();
         }
 
         else if (Input.GetMouseButtonDown(0))
         {
-            recPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-            rec = new Rect(recPos.x, recPos.y, 0, 0);
-            canvasImage.SetActive(true);
-            isDragging = true;
+            isMouseDown = true;
+            recPos = Input.mousePosition;
         }
 
         if(Input.GetMouseButtonDown(1))
@@ -82,61 +63,65 @@ public class Controls : MonoBehaviour
         {
             ShowPositionPointer(false);
         }
-
-        if (isDragging)
+        if (isMouseDown)
         {
-            if (Input.mousePosition.y < recPos.y && Input.mousePosition.x > recPos.x)
+            if (Vector3.Distance(Input.mousePosition, recPos) > draggingOffset && !isDragging)
             {
-                rec.width = Input.mousePosition.x - recPos.x;
-
-                rec.height = recPos.y - Input.mousePosition.y;
-                rec.y = Input.mousePosition.y;
-                //Debug.Log(rec.height);
+                isDragging = true;
             }
-            else if(Input.mousePosition.y < recPos.y && Input.mousePosition.x < recPos.x)
+            if (isDragging)
             {
-                rec.width = recPos.x - Input.mousePosition.x;
-                rec.x = Input.mousePosition.x;
-
-                rec.height = recPos.y - Input.mousePosition.y;
-                rec.y = Input.mousePosition.y;
+                CreateRectSelection();
+                //SelectOnDrag();
             }
-            else if(Input.mousePosition.y > recPos.y && Input.mousePosition.x < recPos.x)
-            {
-                rec.width = recPos.x - Input.mousePosition.x;
-                rec.x = Input.mousePosition.x;
+        }
+    }
 
-                rec.height = Input.mousePosition.y - recPos.y;
+    private void CreateRectSelection()
+    {
+        canvasImage.gameObject.SetActive(true);
+
+        float boxWidth = Input.mousePosition.x - recPos.x;
+        float boxHeight = Input.mousePosition.y - recPos.y;
+        
+        canvasImage.sizeDelta = new Vector2(Mathf.Abs(boxWidth), Mathf.Abs(boxHeight));
+        canvasImage.anchoredPosition = (recPos + Input.mousePosition) / 2;
+        rec.size = canvasImage.sizeDelta;
+    }
+
+    private void SelectUnit()
+    {
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            canvasImage.gameObject.SetActive(false);
+
+            if (hit.collider.TryGetComponent(out Unit unit))
+            {
+                selectionManager.AddSelectedUnit(unit);
+                unit.UnitSelected(true);
+            }
+        }
+    }
+
+    private void SelectOnDrag()
+    {
+        for (int i = 0; i < selectionManager.allUnits.Count; ++i)
+        {
+            if (rec.Contains(Camera.main.WorldToScreenPoint(selectionManager.allUnits[i].transform.position)))
+            {
+                selectionManager.AddSelectedUnit(selectionManager.allUnits[i]);
+                selectionManager.UnitsSelected[i].UnitSelected(true);
             }
             else
             {
-                rec.width = Input.mousePosition.x - rec.x;
-                rec.height = Input.mousePosition.y - rec.y;
-               // Debug.Log(rec);
-            }
-
-            canvasImage.transform.position = new Vector3(rec.x, rec.y, 0);
-            canvasImage.GetComponent<RectTransform>().sizeDelta = new Vector2(rec.width, rec.height);
-        }
-
-        if(isDragging)
-        {
-            for(int i = 0; i < selectionManager.allUnits.Count; ++i)
-            {
-                if(rec.Contains(Camera.main.WorldToScreenPoint(selectionManager.allUnits[i].transform.position)))
+                if (selectionManager.UnitsSelected.Count > 0)
                 {
-                    selectionManager.AddSelectedUnit(selectionManager.allUnits[i]);
-                    selectionManager.UnitsSelected[i].UnitSelected(true);
-                }
-                else
-                {
+                    selectionManager.UnitsSelected[i].UnitSelected(false);
                     selectionManager.RemoveSelectedUnit(selectionManager.allUnits[i]);
-                    if (selectionManager.UnitsSelected.Count < 0)
-                    {
-                        selectionManager.UnitsSelected[i].UnitSelected(false);
-                    }
                 }
-            }   
+            }
         }
     }
 
@@ -149,13 +134,27 @@ public class Controls : MonoBehaviour
             target.transform.position = Camera.main.WorldToScreenPoint(hit.collider.transform.position);
             target.transform.position = hit.point;
         }
-
-
     }
 
     //Temporary fix maybe... Would like to use an animation like in AoE
     private void ShowPositionPointer(bool showPointer)
     {
         target.SetActive(showPointer);
+    }
+
+    private void AdjustFOV()
+    {
+        Camera.main.fieldOfView = FOV;
+
+        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        {
+            FOV--;
+            FOV = Mathf.Clamp(FOV, 25, 100);
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        {
+            FOV++;
+            FOV = Mathf.Clamp(FOV, 25, 100);
+        }
     }
 }
