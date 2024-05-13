@@ -2150,6 +2150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDragging: 0
   canvasImage: {fileID: 6917335}
+  testImage: {fileID: 0}
   target: {fileID: 523120595}
   draggingOffset: 10
 --- !u!1001 &1847200259

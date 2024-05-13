@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -10,6 +11,7 @@ public class Controls : MonoBehaviour
     Ray ray;
     public bool isDragging = false;
     public RectTransform canvasImage;
+    public RectTransform testImage;
     public GameObject target;
     public int draggingOffset = 1; 
 
@@ -34,11 +36,15 @@ public class Controls : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
+            //Update this to check what has been hit if adding building construction
+            if (!isDragging)
+            {
+                SelectUnit();
+            }
+
+            canvasImage.gameObject.SetActive(false);
             isDragging = false;
             isMouseDown = false;
-
-            //Update this to check what has been hit if adding building construction
-            SelectUnit();
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -74,7 +80,7 @@ public class Controls : MonoBehaviour
             if (isDragging)
             {
                 CreateRectSelection();
-                //SelectOnDrag();
+                SelectOnDrag();
             }
         }
     }
@@ -86,9 +92,9 @@ public class Controls : MonoBehaviour
         float boxWidth = Input.mousePosition.x - recPos.x;
         float boxHeight = Input.mousePosition.y - recPos.y;
         
-        canvasImage.sizeDelta = new Vector2(Mathf.Abs(boxWidth), Mathf.Abs(boxHeight));
+        rec = new Rect(Mathf.Min(recPos.x, Input.mousePosition.x), Mathf.Min(recPos.y, Input.mousePosition.y), Mathf.Abs(boxWidth), Mathf.Abs(boxHeight));
+        canvasImage.sizeDelta = rec.size;
         canvasImage.anchoredPosition = (recPos + Input.mousePosition) / 2;
-        rec.size = canvasImage.sizeDelta;
     }
 
     private void SelectUnit()
@@ -97,8 +103,6 @@ public class Controls : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
-            canvasImage.gameObject.SetActive(false);
-
             if (hit.collider.TryGetComponent(out Unit unit))
             {
                 if (selectionManager.UnitsSelected.Count > 0)
@@ -130,15 +134,16 @@ public class Controls : MonoBehaviour
         {
             if (rec.Contains(Camera.main.WorldToScreenPoint(selectionManager.allUnits[i].transform.position)))
             {
+                Debug.Log(selectionManager.allUnits[i].name);
                 selectionManager.AddSelectedUnit(selectionManager.allUnits[i]);
-                selectionManager.UnitsSelected[i].UnitSelected(true);
+                selectionManager.allUnits[i].UnitSelected(true);
             }
             else
             {
                 if (selectionManager.UnitsSelected.Count > 0)
                 {
-                    selectionManager.UnitsSelected[i].UnitSelected(false);
-                    selectionManager.RemoveSelectedUnit(selectionManager.allUnits[i]);
+                   //selectionManager.UnitsSelected[i].UnitSelected(false);
+                   //selectionManager.RemoveSelectedUnit(selectionManager.allUnits[i]);
                 }
             }
         }

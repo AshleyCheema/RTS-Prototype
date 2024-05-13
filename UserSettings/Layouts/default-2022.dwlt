@@ -315,23 +315,23 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: a8faffff
-      m_LastClickedID: -1368
+      m_SelectedIDs: 2a550000
+      m_LastClickedID: 21802
       m_ExpandedIDs: 28fbffff8c550000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: Cube (1)
-        m_OriginalName: Cube (1)
+        m_Name: 
+        m_OriginalName: 
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 21882
+        m_UserData: 0
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 0
+        m_OriginalEventType: 11
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 7}
       m_SearchString: 
@@ -1005,9 +1005,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -10.498429, y: 106.25966, z: -42.042183}
+    m_Target: {x: 709, y: 176.5, z: 0}
     speed: 2
-    m_Value: {x: -10.498429, y: 106.25966, z: -42.042183}
+    m_Value: {x: 709, y: 176.5, z: 0}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1053,13 +1053,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.4266422, y: -0.042845815, z: 0.020238008, w: -0.9031745}
+    m_Target: {x: -0.6915354, y: 0.014512312, z: -0.013900642, w: -0.7220582}
     speed: 2
-    m_Value: {x: -0.42664367, y: -0.042845964, z: 0.02023808, w: -0.9031776}
+    m_Value: {x: -0.6915378, y: 0.014512362, z: -0.013900691, w: -0.7220607}
   m_Size:
-    m_Target: 26.811811
+    m_Target: 19.023878
     speed: 2
-    m_Value: 26.811811
+    m_Value: 19.023878
   m_Ortho:
     m_Target: 0
     speed: 2
