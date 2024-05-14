@@ -1,26 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Unit : MonoBehaviour
 {
-    const float minPathUpdateTime = .2f;
-    const float pathUpdateMoveThreshold = .5f;
 
     public float speed = 20;
     public float turnDst = 5;
     public float turnSpeed = 3;
     public float stoppingDst = 10;
 
+    private NavMeshAgent agent;
+
     [SerializeField]
     private GameObject selectedHighlight;
 
-    //Vector3[] path;
-    //int targetIndex;
     Path path;
 
     private void Start()
     {
+        agent = GetComponent<NavMeshAgent>();
         SelectionManager.instance.allUnits.Add(this);
     }
 
@@ -29,90 +29,14 @@ public class Unit : MonoBehaviour
         SelectionManager.instance.allUnits.Remove(this);
     }
 
-    public void StartPath(Transform target)
-    {
-        StartCoroutine(UpdatePath(target));
-    }
-
-    public void OnPathFound(Vector3[] waypoints, bool pathSucessful)
-    {
-        if(pathSucessful)
-        {
-            path = new Path(waypoints, transform.position, turnDst, stoppingDst);
-            StopCoroutine(FollowPath());
-            StartCoroutine(FollowPath());
-        }
-    }
-
-   IEnumerator UpdatePath(Transform target)
-   {
-        if(Time.timeSinceLevelLoad < .3f)
-        {
-            yield return new WaitForSeconds(.3f);
-        }
-        PathManager.RequestPath(new PathRequest (transform.position, target.position, OnPathFound));
-
-        float sqrMoveThreshold = pathUpdateMoveThreshold * pathUpdateMoveThreshold;
-        Vector3 targetPosOld = target.position;
-
-        while(true)
-        {
-            yield return new WaitForSeconds(minPathUpdateTime);
-            if((target.position - targetPosOld).sqrMagnitude > sqrMoveThreshold)
-            {
-                PathManager.RequestPath(new PathRequest (transform.position, target.position, OnPathFound));
-                targetPosOld = target.position;
-
-            }
-        }
-   }
-
-    IEnumerator FollowPath()
-    {        
-        bool followingPath = true;
-        int pathIndex = 0;
-        transform.LookAt(path.lookPoints[0]);
-        
-        float speedPercent = 1;
-        
-        while (followingPath)
-        {
-            Vector2 pos2D = new Vector2(transform.position.x, transform.position.z);
-            while (path.turnBoundaries[pathIndex].HasCrossedLine(pos2D))
-            {
-                if (pathIndex == path.finishLineIndex)
-                {
-                    followingPath = false;
-                    break;
-                }
-                else
-                {
-                    pathIndex++;
-                }
-            }
-            if(followingPath)
-            {
-                if (pathIndex >= path.slowDownIndex && stoppingDst > 0)
-                {
-                    speedPercent = Mathf.Clamp01(path.turnBoundaries[path.finishLineIndex].DistanceFromPoint(pos2D) / stoppingDst);
-
-                    if(speedPercent < 0.01f)
-                    {
-                        followingPath = false;
-                    }
-                }
-
-                Quaternion targetRotation = Quaternion.LookRotation(path.lookPoints[pathIndex] - transform.position);
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
-                transform.Translate(Vector3.forward * Time.deltaTime * speed * speedPercent, Space.Self);
-            }               
-            yield return null;
-        }
-    }
-
     public void UnitSelected(bool isSelected)
     {
         selectedHighlight.SetActive(isSelected);
+    }
+
+    public void MoveUnit(Transform targetLocation)
+    {
+        agent.destination = targetLocation.position;
     }
 
     public void OnDrawGizmos()
