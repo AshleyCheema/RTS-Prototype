@@ -7,7 +7,6 @@ public class Unit : MonoBehaviour
     const float minPathUpdateTime = .2f;
     const float pathUpdateMoveThreshold = .5f;
 
-    public Transform target;
     public float speed = 20;
     public float turnDst = 5;
     public float turnSpeed = 3;
@@ -30,9 +29,9 @@ public class Unit : MonoBehaviour
         SelectionManager.instance.allUnits.Remove(this);
     }
 
-    public void StartPath()
+    public void StartPath(Transform target)
     {
-        StartCoroutine(UpdatePath());
+        StartCoroutine(UpdatePath(target));
     }
 
     public void OnPathFound(Vector3[] waypoints, bool pathSucessful)
@@ -40,12 +39,12 @@ public class Unit : MonoBehaviour
         if(pathSucessful)
         {
             path = new Path(waypoints, transform.position, turnDst, stoppingDst);
-            StopCoroutine("FollowPath");
-            StartCoroutine("FollowPath");
+            StopCoroutine(FollowPath());
+            StartCoroutine(FollowPath());
         }
     }
 
-   IEnumerator UpdatePath()
+   IEnumerator UpdatePath(Transform target)
    {
         if(Time.timeSinceLevelLoad < .3f)
         {

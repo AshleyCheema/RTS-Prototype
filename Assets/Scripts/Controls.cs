@@ -55,14 +55,15 @@ public class Controls : MonoBehaviour
 
         if(Input.GetMouseButtonDown(1))
         {
+            Transform targetPos = TargetPosition();
+            ShowPositionPointer(true);
+
             if (selectionManager.UnitsSelected.Count > 0)
             {
                 for (int i = 0; i < selectionManager.UnitsSelected.Count; i++)
                 {
-                    selectionManager.UnitsSelected[i].GetComponent<Unit>().StartPath();
+                    selectionManager.UnitsSelected[i].GetComponent<Unit>().StartPath(targetPos);
                 }
-                ShowPositionPointer(true);
-                MoveTarget();
             }
         }
 
@@ -148,7 +149,7 @@ public class Controls : MonoBehaviour
         }
     }
 
-    public void MoveTarget()
+    public Transform TargetPosition()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -157,6 +158,8 @@ public class Controls : MonoBehaviour
             target.transform.position = Camera.main.WorldToScreenPoint(hit.collider.transform.position);
             target.transform.position = hit.point;
         }
+
+        return target.transform;
     }
 
     //Temporary fix maybe... Would like to use an animation like in AoE
