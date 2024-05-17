@@ -62,7 +62,7 @@ public class Controls : MonoBehaviour
             {
                 for (int i = 0; i < selectionManager.UnitsSelected.Count; i++)
                 {
-                    selectionManager.UnitsSelected[i].GetComponent<Unit>().MoveUnit(targetPos);
+                    selectionManager.UnitsSelected[i].GetComponent<Unit>().MoveUnit(targetPos.position);
                 }
             }
         }

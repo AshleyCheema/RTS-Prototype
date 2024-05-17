@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Pathfinder : MonoBehaviour
 {
@@ -25,8 +26,17 @@ public class Pathfinder : MonoBehaviour
         return Vector3.zero;
     }
 
-    public void FindNewPaths()
+    public void FindNewPaths(Unit unit, Vector3 destination)
     {
+        if(!unit.unitAtDestination)
+        {
+            NavMeshHit hit;
+            if(NavMesh.SamplePosition(destination, out hit, 1.0f, NavMesh.AllAreas))
+            {
+                unit.MoveUnit(hit.position);
+            }
+        }
+
         Debug.Log("You have reached your Destination");
     }
 

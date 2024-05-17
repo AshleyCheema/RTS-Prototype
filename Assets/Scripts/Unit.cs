@@ -13,15 +13,16 @@ public class Unit : MonoBehaviour
     public float turnDst = 5;
     public float turnSpeed = 3;
     public float stoppingDst = 10;
+    public bool unitAtDestination = false;
 
-    private NavMeshAgent agent;
     [SerializeField]
     private float reachThreshold = 1.0f;
-
     [SerializeField]
     private GameObject selectedHighlight;
 
-    Path path;
+    private bool destinationReached = false;
+    private NavMeshAgent agent;
+
 
     private void Start()
     {
@@ -44,30 +45,23 @@ public class Unit : MonoBehaviour
         Pathfinder.instance.CreatePath(targetLocation);
     }
 
-    public async void MoveUnit(Transform targetLocation)
+    public async void MoveUnit(Vector3 targetLocation)
     {
-        agent.destination = targetLocation.position;
+        agent.destination = targetLocation;
 
-        await FirstToDestination();
+        FirstToDestination();
     }
 
-    public void OnDrawGizmos()
-    {
-        if(path != null)
-        {
-            path.DrawWithGizmos(); 
-        }
-    }
-
-    private async Task FirstToDestination()
+    private void FirstToDestination()
     {
         //Bullied by the Y axis being to high on the capsule. Can be fixed with a lower down axis
-        while (Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), new Vector3(agent.destination.x, 0f, agent.destination.z)) > reachThreshold)
+        if (Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), new Vector3(agent.destination.x, 0f, agent.destination.z)) < reachThreshold)
         {
-            await Task.Yield();
+            unitAtDestination = true;
+
+            Pathfinder.instance.FindNewPaths(this, agent.destination);
         }
 
-        Pathfinder.instance.FindNewPaths();
     }
 
 }
