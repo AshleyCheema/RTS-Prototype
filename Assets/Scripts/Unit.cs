@@ -20,7 +20,8 @@ public class Unit : MonoBehaviour
     [SerializeField]
     private GameObject selectedHighlight;
 
-    private bool destinationReached = false;
+    private static bool destinationReached = false;
+    private Coroutine firstToDestination;
     private NavMeshAgent agent;
 
 
@@ -40,28 +41,30 @@ public class Unit : MonoBehaviour
         selectedHighlight.SetActive(isSelected);
     }
 
-    public void GetPath(Transform targetLocation)
-    {
-        Pathfinder.instance.CreatePath(targetLocation);
-    }
-
-    public async void MoveUnit(Vector3 targetLocation)
+    public void MoveUnit(Vector3 targetLocation)
     {
         agent.destination = targetLocation;
-
-        FirstToDestination();
     }
 
-    private void FirstToDestination()
-    {
-        //Bullied by the Y axis being to high on the capsule. Can be fixed with a lower down axis
-        if (Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), new Vector3(agent.destination.x, 0f, agent.destination.z)) < reachThreshold)
-        {
-            unitAtDestination = true;
+    //private IEnumerator FirstToDestination()
+    //{
+    //    while (true)
+    //    {
+    //        //Bullied by the Y axis being to high on the capsule. Can be fixed with a lower down axis
+    //        if (Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), new Vector3(agent.destination.x, 0f, agent.destination.z)) < reachThreshold)
+    //        {
+    //            unitAtDestination = true;
+    //            destinationReached = true;
+    //            Pathfinder.instance.FindNewPaths(this, agent.destination);
+    //            yield return null;
+    //        }
+    //        else if(destinationReached)
+    //        {
+    //            yield return null;
+    //        }
 
-            Pathfinder.instance.FindNewPaths(this, agent.destination);
-        }
-
-    }
+    //        yield return new WaitForSeconds(0.1f);
+    //    }
+    //}
 
 }

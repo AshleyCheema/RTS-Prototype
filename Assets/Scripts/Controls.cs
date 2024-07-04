@@ -60,10 +60,7 @@ public class Controls : MonoBehaviour
 
             if (selectionManager.UnitsSelected.Count > 0)
             {
-                for (int i = 0; i < selectionManager.UnitsSelected.Count; i++)
-                {
-                    selectionManager.UnitsSelected[i].GetComponent<Unit>().MoveUnit(targetPos.position);
-                }
+                Pathfinder.instance.BoxFormation(targetPos.position, selectionManager.UnitsSelected);
             }
         }
 
